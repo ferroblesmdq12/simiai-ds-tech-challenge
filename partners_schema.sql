@@ -57,3 +57,4 @@ SELECT * FROM plans;
 SELECT * FROM countries;
 SELECT * FROM notifications;
 SELECT * FROM partners;
+
