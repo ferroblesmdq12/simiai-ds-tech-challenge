@@ -16,24 +16,43 @@ import plotly.express as px
 # =============================
 st.set_page_config(page_title="Sistema de Partners - SimiAI", layout="wide")
 
-# =============================
-# CONEXIÓN A POSTGRESQL
-# =============================
+# ==============================================
+# CONEXIÓN A POSTGRESQL LOCAL (no se utilizará)
+# ==============================================
+# def connect_db():
+#     try:
+#         conn = psycopg2.connect(
+#             host="localhost",
+#             database="partnersdb",
+#             user="postgres",
+#             password="ferdata",  
+#             port=5432
+#         )
+#         return conn
+#     except Exception as e:
+#         st.error(f"Error de conexión: {e}")
+#         return None
+
+# conn = connect_db()
+
+# ==============================================
+# CONEXIÓN A POSTGRESQL en la nube (neon.tech)
+# ==============================================
+
 def connect_db():
     try:
         conn = psycopg2.connect(
-            host="localhost",
+            host="ep-red-feather-aca9j4sc-pooler.sa-east-1.aws.neon.tech",
             database="partnersdb",
-            user="postgres",
-            password="ferdata",  
-            port=5432
+            user="neondb_owner",
+            password="npg_U7EYlIQ6XZPO",
+            port="5432",
+            sslmode="require"
         )
         return conn
     except Exception as e:
         st.error(f"Error de conexión: {e}")
         return None
-
-conn = connect_db()
 
 # =============================
 # CARGA DE DATOS
