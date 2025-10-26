@@ -53,6 +53,7 @@ def connect_db():
     except Exception as e:
         st.error(f"Error de conexión: {e}")
         return None
+conn = connect_db()
 
 # =============================
 # CARGA DE DATOS
