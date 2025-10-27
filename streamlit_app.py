@@ -147,7 +147,7 @@ fig4 = px.bar(kpi4, x="plan_name", y="mean", color="plan_name", title="Promedio 
 
 # KPI 5: Top 10 partners por notificaciones
 kpi5 = notif.groupby("partner_name")["notification_count"].sum().reset_index().sort_values("notification_count", ascending=False).head(10)
-fig5 = px.bar(kpi5, x="partner_name", y="notification_count", color="notification_count", title="Top 10 Partners por Notificaciones", color_continuous_scale=COLOR_PALETTE  # degradado azul elegante)
+fig5 = px.bar(kpi5, x="partner_name", y="notification_count", color="notification_count", title="Top 10 Partners por Notificaciones", color_continuous_scale=COLOR_PALETTE)
               
 
 st.plotly_chart(fig4, use_container_width=True)
