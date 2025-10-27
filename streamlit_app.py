@@ -105,9 +105,31 @@ kpi2 = merged.groupby("join_month")["Partner"].count().reset_index()
 fig2 = px.line(kpi2, x="join_month", y="Partner", title="Evolución de Altas Mensuales")
 
 
-# KPI 3: Distribución geográfica
-kpi3 = merged.groupby("País")["Partner"].count().reset_index()
-fig3 = px.pie(kpi3, names="País", values="Partner", title="Distribución de Partners por País")
+# KPI 3: Distribución geográfica (gráfico de barras horizontales)
+kpi3 = merged.groupby("País")["Partner"].count().reset_index().sort_values("Partner", ascending=True)
+fig3 = px.bar(
+    kpi3,
+    x="Partner",
+    y="País",
+    orientation="h",
+    text="Partner",
+    color="País",
+    title="Distribución de Partners por País",
+    color_discrete_sequence=px.colors.qualitative.Pastel
+)
+
+fig3.update_traces(textposition="outside")
+fig3.update_layout(
+    xaxis_title="Cantidad de Partners",
+    yaxis_title="País",
+    showlegend=False,
+    plot_bgcolor="white",
+    xaxis=dict(showgrid=True, gridcolor="lightgray"),
+)
+
+st.plotly_chart(fig3, use_container_width=True)
+
+# Mostrar KPIs en columnas
 
 col1.plotly_chart(fig1, use_container_width=True)
 col2.plotly_chart(fig2, use_container_width=True)

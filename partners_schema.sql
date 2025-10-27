@@ -58,3 +58,10 @@ SELECT * FROM countries;
 SELECT * FROM notifications;
 SELECT * FROM partners;
 
+-- Desactivar temporalmente las restricciones de clave foránea
+ALTER TABLE notifications DROP CONSTRAINT IF EXISTS notifications_partner_id_fkey;
+
+-- Eliminar la tabla partners si existe
+DROP TABLE IF EXISTS partners CASCADE;
+
+--Luego de borrar la tabla partners, vse creo nuevamente la tabla con las restricciones.

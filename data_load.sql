@@ -43,7 +43,13 @@ INSERT INTO statuses (status_name) VALUES
 -- ======================
 -- 4. PARTNERS (50 registros)
 -- ======================
--- Generados con diversidad de país, plan, estado y fecha (enero–octubre 2024)
+-- Distribución aleatoria y coherente por país, plan, estado y fecha
+-- Periodo: Enero - Octubre 2024
+-- Países: 10 (LATAM)
+-- Planes: 4 (Básico, Estándar, Premium, Enterprise)
+-- Estados: 1=Activo, 2=Pendiente, 3=Inactivo, 4=Cancelado
+-- ================================================================
+
 INSERT INTO partners (partner_name, country_id, plan_id, status_id, join_date) VALUES
 ('DataNova', 1, 2, 1, '2024-01-10'),
 ('CloudTech', 2, 3, 1, '2024-01-20'),
@@ -56,45 +62,46 @@ INSERT INTO partners (partner_name, country_id, plan_id, status_id, join_date) V
 ('AIConnect', 9, 3, 1, '2024-03-25'),
 ('CloudBridge', 10, 2, 2, '2024-03-30'),
 ('NeuralTech', 1, 4, 1, '2024-04-05'),
-('VisionAI', 2, 3, 1, '2024-04-12'),
-('DataBridge', 3, 2, 4, '2024-04-18'),
-('DeepLogic', 4, 3, 1, '2024-04-22'),
-('NextGenData', 5, 4, 1, '2024-05-01'),
-('QuantumSoft', 6, 2, 1, '2024-05-10'),
-('GlobalConnect', 7, 3, 2, '2024-05-18'),
-('NovaMetrics', 8, 2, 1, '2024-05-25'),
-('InfoLink', 9, 1, 1, '2024-06-01'),
-('DataInsight', 10, 2, 1, '2024-06-05'),
-('CloudBoost', 1, 4, 3, '2024-06-10'),
-('SmartBridge', 2, 2, 1, '2024-06-15'),
-('VisionCorp', 3, 3, 1, '2024-06-20'),
-('TechLink', 4, 1, 1, '2024-06-25'),
-('DataPlus', 5, 2, 1, '2024-07-01'),
-('AnalytIQ', 6, 3, 2, '2024-07-05'),
-('NextVision', 7, 4, 1, '2024-07-10'),
-('SysData', 8, 2, 1, '2024-07-15'),
-('GlobalSoft', 9, 3, 4, '2024-07-20'),
+('VisionAI', 1, 3, 1, '2024-04-12'),
+('DataBridge', 2, 2, 4, '2024-04-18'),
+('DeepLogic', 2, 3, 1, '2024-04-22'),
+('NextGenData', 3, 4, 1, '2024-05-01'),
+('QuantumSoft', 3, 2, 1, '2024-05-10'),
+('GlobalConnect', 4, 3, 2, '2024-05-18'),
+('NovaMetrics', 4, 2, 1, '2024-05-25'),
+('InfoLink', 5, 1, 1, '2024-06-01'),
+('DataInsight', 5, 2, 1, '2024-06-05'),
+('CloudBoost', 6, 4, 3, '2024-06-10'),
+('SmartBridge', 6, 2, 1, '2024-06-15'),
+('VisionCorp', 7, 3, 1, '2024-06-20'),
+('TechLink', 7, 1, 1, '2024-06-25'),
+('DataPlus', 8, 2, 1, '2024-07-01'),
+('AnalytIQ', 8, 3, 2, '2024-07-05'),
+('NextVision', 9, 4, 1, '2024-07-10'),
+('SysData', 9, 2, 1, '2024-07-15'),
+('GlobalSoft', 10, 3, 4, '2024-07-20'),
 ('OptiCore', 10, 1, 1, '2024-07-25'),
 ('BitWorks', 1, 3, 1, '2024-08-01'),
-('DataStream', 2, 2, 1, '2024-08-05'),
-('TechWave', 3, 4, 3, '2024-08-10'),
-('InsightHub', 4, 2, 1, '2024-08-15'),
-('MarketIQ', 5, 3, 1, '2024-08-20'),
-('CloudEdge', 6, 4, 1, '2024-08-25'),
-('InfoMatrix', 7, 3, 1, '2024-09-01'),
-('NeuralLink', 8, 2, 1, '2024-09-05'),
-('SoftMetrics', 9, 3, 2, '2024-09-10'),
-('VisionCloud', 10, 4, 1, '2024-09-15'),
-('DataForce', 1, 2, 1, '2024-09-20'),
-('AIData', 2, 3, 1, '2024-09-25'),
-('SmartAnalytics', 3, 4, 1, '2024-09-28'),
-('OptiNet', 4, 2, 1, '2024-10-01'),
-('CloudWare', 5, 3, 1, '2024-10-05'),
-('ByteLogic', 6, 4, 1, '2024-10-08'),
-('DataFlow', 7, 1, 2, '2024-10-10'),
-('NextData', 8, 2, 1, '2024-10-15'),
-('VisionTech', 9, 3, 1, '2024-10-20'),
-('SmartData', 10, 4, 1, '2024-10-23');
+('DataStream', 1, 2, 1, '2024-08-05'),
+('TechWave', 2, 4, 3, '2024-08-10'),
+('InsightHub', 2, 2, 1, '2024-08-15'),
+('MarketIQ', 3, 3, 1, '2024-08-20'),
+('CloudEdge', 4, 4, 1, '2024-08-25'),
+('InfoMatrix', 5, 3, 1, '2024-09-01'),
+('NeuralLink', 6, 2, 1, '2024-09-05'),
+('SoftMetrics', 7, 3, 2, '2024-09-10'),
+('VisionCloud', 8, 4, 1, '2024-09-15'),
+('DataForce', 9, 2, 1, '2024-09-20'),
+('AIData', 9, 3, 1, '2024-09-25'),
+('SmartAnalytics', 10, 4, 1, '2024-09-28'),
+('OptiNet', 10, 2, 1, '2024-10-01'),
+('CloudWare', 10, 3, 1, '2024-10-05'),
+('ByteLogic', 5, 4, 1, '2024-10-08'),
+('DataFlow', 6, 1, 2, '2024-10-10'),
+('NextData', 7, 2, 1, '2024-10-15'),
+('VisionTech', 8, 3, 1, '2024-10-20'),
+('SmartData', 9, 4, 1, '2024-10-23');
+
 
 -- ======================
 -- 5. NOTIFICATIONS (+60 registros)
