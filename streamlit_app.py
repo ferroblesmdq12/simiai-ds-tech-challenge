@@ -160,7 +160,7 @@ notif_full = (
 # =============================
 st.markdown(
     f"""
-    <h1 style="color:#E0E0E0; margin-bottom:0;"> Dashboard — Sistema de Partners (SimiAI)</h1>
+    <h1 style="color:#E0E0E0; margin-bottom:0;"> SimiAI - Sistema de Partners </h1>
     <p style="color:#b2b6b0; margin-top:4px;">
     Vista ejecutiva y operativa de la red de partners. <br/>
     Los filtros de la izquierda impactan en todas las métricas excepto las operativas globales de notificaciones.
