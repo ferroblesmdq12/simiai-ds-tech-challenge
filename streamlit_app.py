@@ -89,7 +89,7 @@ merged.rename(columns={
 # =============================
 # INTERFAZ DE USUARIO
 # =============================
-st.title("📊 Dashboard Analítico — Sistema de Partners (SimiAI)")
+st.title("📊 Dashboardo — Sistema de Partners (SimiAI)")
 st.markdown("Visualización de métricas clave sobre partners, planes, países y actividad.")
 
 col1, col2, col3 = st.columns(3)
