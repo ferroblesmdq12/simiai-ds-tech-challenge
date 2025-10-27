@@ -103,7 +103,7 @@ st.sidebar.header("Filtros")
 # Filtro País
 paises_unicos = sorted(merged["País"].unique().tolist())
 opcion_pais = st.sidebar.selectbox(
-    "🌎 País",
+    " País",
     options=["Todos"] + paises_unicos,
     index=0
 )
@@ -111,7 +111,7 @@ opcion_pais = st.sidebar.selectbox(
 # Filtro Plan
 planes_unicos = sorted(merged["Plan"].unique().tolist())
 opcion_plan = st.sidebar.selectbox(
-    "📦 Plan Comercial",
+    " Plan Comercial",
     options=["Todos"] + planes_unicos,
     index=0
 )
@@ -121,7 +121,7 @@ fecha_min = merged["FechaAlta"].min()
 fecha_max = merged["FechaAlta"].max()
 
 rango_fecha = st.sidebar.date_input(
-    "📅 Rango de Fecha de Alta",
+    " Rango de Fecha de Alta",
     value=(fecha_min, fecha_max),
     min_value=fecha_min,
     max_value=fecha_max
