@@ -143,7 +143,7 @@ col3.plotly_chart(fig3, use_container_width=True)
 # KPI 4: Promedio de notificaciones por plan
 notif = notifications.merge(partners, left_on="partner_id", right_on="id_partner").merge(plans, left_on="plan_id", right_on="id_plan")
 kpi4 = notif.groupby("plan_name")["notification_count"].agg(["sum", "mean"]).reset_index()
-fig4 = px.bar(kpi4, x="plan_name", y="mean", color="plan_name", title="Promedio de Notificaciones por Plan", color_discrete_sequence=COLOR_PALETTE)
+fig4 = px.bar(kpi4, x="plan_name", y="promedio", color="plan_name", title="Promedio de Notificaciones por Plan", color_discrete_sequence=COLOR_PALETTE)
 
 # KPI 5: Top 10 partners por notificaciones
 kpi5 = notif.groupby("partner_name")["notification_count"].sum().reset_index().sort_values("notification_count", ascending=False).head(10)
