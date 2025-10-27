@@ -400,6 +400,7 @@ import streamlit as st
 import pandas as pd
 import psycopg2
 import plotly.express as px
+import datetime
 
 # =============================
 # CONFIGURACIÓN INICIAL
@@ -450,6 +451,7 @@ merged = (
     .merge(statuses, left_on="status_id", right_on="id_status")
 )
 
+
 merged.rename(columns={
     "country_name": "País",
     "plan_name": "Plan",
@@ -492,12 +494,17 @@ fecha_sel = st.sidebar.date_input(
     max_value=fecha_max
 )
 
+# Convertir rango de fechas del filtro a datetime
+fecha_inicio = pd.to_datetime(fecha_sel[0])
+fecha_fin = pd.to_datetime(fecha_sel[1]) + pd.Timedelta(days=1)  # incluye el día final
+
 # Filtrado dinámico
 merged_filtered = merged[
     (merged["País"].isin(pais_sel)) &
     (merged["Plan"].isin(plan_sel)) &
-    (merged["join_date"].between(fecha_sel[0], fecha_sel[1]))
+    (merged["join_date"].between(fecha_inicio, fecha_fin))
 ]
+
 
 # =============================
 # KPI RESUMEN (Tarjetas)
