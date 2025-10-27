@@ -89,7 +89,7 @@ merged.rename(columns={
 # =============================
 # INTERFAZ DE USUARIO
 # =============================
-st.title("📊 Dashboardo — Sistema de Partners (SimiAI)")
+st.title("Dashboard — Sistema de Partners (SimiAI)")
 st.markdown("Visualización de métricas clave sobre partners, planes, países y actividad.")
 
 col1, col2, col3 = st.columns(3)
@@ -159,8 +159,8 @@ st.plotly_chart(fig5, use_container_width=True)
 st.markdown("---")
 st.markdown("✅ **Interpretaciones sugeridas:**")
 st.markdown("""
-- Los planes *Premium* y *Enterprise* concentran la mayor cantidad de partners activos.  
-- El crecimiento mensual muestra tendencia positiva hasta septiembre.  
-- Argentina, México y Colombia lideran la cantidad de partners en LATAM.  
-- El promedio de notificaciones por plan confirma una mayor actividad en Enterprise.  
+- Los planes *Standard* y *Premium*  concentran la mayor cantidad de partners activos.  
+- El crecimiento mensual muestra tendencia positiva hasta septiembre del año 2024.  
+- *Bolivia* y *Ecuador* lideran la cantidad de partners en LATAM.  
+- El promedio de notificaciones por plan confirma una mayor actividad en *Enterprise*.  
 """)
