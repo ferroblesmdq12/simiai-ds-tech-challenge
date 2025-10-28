@@ -44,7 +44,7 @@ El proyecto está compuesto por tres capas principales:
 
 ## 📊 Diagrama Entidad–Relación
 
-![ERD_SimiAI_PartnersDB](reports/Diagrama%20Entidad%20Relación.PNG)
+ Ver: ![ERD_SimiAI_PartnersDB](reports/Diagrama%20Entidad%20Relación.PNG)
 
 
 > El modelo relacional respeta la normalización 3NF, garantizando integridad referencial y consistencia de los datos.
@@ -52,27 +52,9 @@ El proyecto está compuesto por tres capas principales:
 ---
 
 ## 📁 Estructura del Proyecto
- ![Estructura_del_Proyecto](reports/Estructura_del_Proyecto.PNG)
-RETO TÉCNICO SIMIAI/
-│
-├── .devcontainer/ # Configuración para contenedor remoto (Codespaces / Docker)
-│ └── devcontainer.json
-│
-├── sql/ # Scripts SQL
-│ ├── partners_schema.sql # Definición del esquema de base de datos
-│ ├── data_load.sql # Inserción de datos simulados
-│ └── queries_kpis.sql # Consultas de análisis y KPIs
-│
-├── src/ # Código fuente del dashboard
-│ └── streamlit_app.py
-│
-├── reports/ # Diagramas e informes
-│ ├── Diagrama Entidad Relación.PNG
-│ ├── ERD_SimiAI_PartnersDB.pdf
-│ └── ColorsPalette.PNG
-│
-├── requirements.txt # Dependencias del proyecto
-└── README.md # Documentación general
+
+ Ver: ![Estructura_del_Proyecto](reports/Estructura_del_Proyecto.PNG)
+
 
 
 ---
