@@ -86,7 +86,10 @@ pip install -r requirements.txt
 streamlit run src/streamlit_app.py
 
 # 
-###  KPI
+###  Análisis de Datos 
+
+ver archivo PDF: ![Reporte analítico](reports/Reporte_Analítico_SimiAI.pdf)
+
 
 | KPI                                     | Descripción                                                                |
 | --------------------------------------- | -------------------------------------------------------------------------- |
