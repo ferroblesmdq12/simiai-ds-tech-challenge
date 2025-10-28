@@ -343,11 +343,11 @@ st.markdown(
 st.markdown(
     """
     <ul style="color:#E0E0E0; font-size:15px; line-height:1.5;">
-         <li>Los planes Premium y Enterprise concentran la mayor cantidad de partners activos.<li>
-        <li>El crecimiento mensual muestra una tendencia positiva entre abril y septiembre.<li>
-        <li>Argentina, México y Colombia lideran en cantidad de partners activos.<li>
-        <li>Los planes de mayor costo presentan más notificaciones, indicando mayor compromiso.<li>
-        <li>Se identifican oportunidades de expansión en países con menor representación.<li>
+        <li>Los planes Premium y Enterprise concentran la mayor cantidad de partners activos<li>
+        <li>El crecimiento mensual muestra una tendencia positiva entre abril y septiembre<li>
+        <li>Argentina, México y Colombia lideran en cantidad de partners activos<li>
+        <li>Los planes de mayor costo presentan más notificaciones, indicando mayor compromiso<li>
+        <li>Se identifican oportunidades de expansión en países con menor representación<li>
 
     </ul>
     """,
