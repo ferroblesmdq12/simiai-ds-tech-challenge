@@ -46,12 +46,13 @@ El proyecto está compuesto por tres capas principales:
 
 ![ERD_SimiAI_PartnersDB](reports/Diagrama%20Entidad%20Relación.PNG)
 
+
 > El modelo relacional respeta la normalización 3NF, garantizando integridad referencial y consistencia de los datos.
 
 ---
 
 ## 📁 Estructura del Proyecto
-
+ ![Estructura_del_Proyecto](reports/Estructura_del_Proyecto.PNG)
 RETO TÉCNICO SIMIAI/
 │
 ├── .devcontainer/ # Configuración para contenedor remoto (Codespaces / Docker)
