@@ -6,12 +6,20 @@
 # # # Fecha: 27/10/2025
 # # # ====================================================
 
+# =============================
+# IMPORTS PRINCIPALES
+# =============================
 
 import streamlit as st
 import pandas as pd
 import psycopg2
 import plotly.express as px
 import datetime
+
+# Importamos los módulos personalizados
+from src.db_connection import init_connection
+from src.data_loader import load_data
+
 
 # =============================
 # CONFIG INICIAL
@@ -26,22 +34,26 @@ st.set_page_config(
 # CONEXIÓN A POSTGRESQL (Neon.tech)
 # ==================================
 
-from src.db_connection import init_connection
-
 conn = init_connection()
+
+if conn:
+    st.sidebar.success("🟢 Conectado a Neon.tech")
+else:
+    st.sidebar.error("❌ No se pudo establecer conexión con la base de datos.")
 
 
 # =============================
 # CARGA DE DATOS
 # =============================
 
-from src.data_loader import load_data
-
-# 🔹 Limpieza manual opcional de cache (solo en desarrollo)
+# Limpieza manual opcional de caché (solo durante desarrollo)
 # st.cache_data.clear()
 
 partners, countries, plans, statuses, notifications = load_data()
 
+# Cierre limpio de conexión, ya que los DataFrames quedan en memoria
+if conn:
+    conn.close()
 
 
 # =============================
