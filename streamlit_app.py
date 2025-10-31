@@ -430,29 +430,46 @@ map_data = (
     .rename(columns={"Partner": "CantidadPartners"})
 )
 
-# Corrección de nombres de países (si hay diferencias con nombres ISO)
-# Ejemplo: map_data["País"].replace({"EEUU": "United States", "México": "Mexico"}, inplace=True)
+# Corrección opcional de nombres de países
+map_data["País"] = map_data["País"].replace({
+    "EEUU": "United States",
+    "México": "Mexico",
+    "Argentina": "Argentina",
+    "Colombia": "Colombia",
+    "Brasil": "Brazil",
+    "Chile": "Chile",
+    "Perú": "Peru",
+    "Uruguay": "Uruguay",
+    "Paraguay": "Paraguay",
+    "Bolivia": "Bolivia",
+    "Ecuador": "Ecuador",
+    "Venezuela": "Venezuela",
+    "Costa Rica": "Costa Rica",
+    "Panamá": "Panama"
+})
 
-# Creamos el mapa
+# Mapa coroplético centrado en América completa
 fig_map = px.choropleth(
     map_data,
     locations="País",
     locationmode="country names",
     color="CantidadPartners",
-    color_continuous_scale="Blues",
-    title="Cantidad de Partners por País (América)",
+    color_continuous_scale="blues",
+    title="Cantidad de Partners por País en América",
     labels={"CantidadPartners": "Partners"},
-    scope="north america",  # mostramos América del Norte y Sur
 )
 
-# Personalizamos el tema oscuro
 fig_map.update_layout(
     geo=dict(
-        bgcolor=BACKGROUND_COLOR,
-        lakecolor=BACKGROUND_COLOR,
+        projection_type="natural earth",   # proyección más natural
+        scope="south america",             # muestra América del Sur
+        lonaxis_range=[-180, -30],         # ajusta el rango de longitud
+        lataxis_range=[-60, 70],           # incluye toda América del Norte y Sur
+        showframe=False,
+        showcoastlines=True,
+        coastlinecolor="#555",
         landcolor="#1c1c1c",
-        projection_scale=1.3,
-        center={"lat": 5, "lon": -75}  # centrado en América
+        bgcolor=BACKGROUND_COLOR
     ),
     paper_bgcolor=BACKGROUND_COLOR,
     font=dict(color=TEXT_COLOR),
@@ -460,7 +477,6 @@ fig_map.update_layout(
 )
 
 st.plotly_chart(fig_map, use_container_width=True)
-
 
 
 # ============================================================
