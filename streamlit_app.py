@@ -34,13 +34,11 @@ st.set_page_config(
 # CONEXIÓN A POSTGRESQL (Neon.tech)
 # ==================================
 
-conn = init_connection()
+from src.data_loader import load_data
 
-if conn:
-    st.sidebar.success("🟢 Conectado a Neon.tech")
-else:
-    st.sidebar.error("❌ No se pudo establecer conexión con la base de datos.")
-
+st.sidebar.info("🔄 Cargando datos desde Neon.tech...")
+partners, countries, plans, statuses, notifications = load_data()
+st.sidebar.success("🟢 Datos cargados correctamente")
 
 # =============================
 # CARGA DE DATOS
