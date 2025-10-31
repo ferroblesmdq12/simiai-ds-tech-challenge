@@ -51,9 +51,7 @@ else:
 
 partners, countries, plans, statuses, notifications = load_data()
 
-# Cierre limpio de conexión, ya que los DataFrames quedan en memoria
-if conn:
-    conn.close()
+
 
 
 # =============================
