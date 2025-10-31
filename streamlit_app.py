@@ -35,19 +35,13 @@ conn = init_connection()
 # CARGA DE DATOS
 # =============================
 
+from src.data_loader import load_data
 
-st.cache_data.clear() # Limpiamos cache para desarrollo
+# 🔹 Limpieza manual opcional de cache (solo en desarrollo)
+# st.cache_data.clear()
 
-@st.cache_data
-def load_data():
-    partners = pd.read_sql("SELECT * FROM partners;", conn)
-    countries = pd.read_sql("SELECT * FROM countries;", conn)
-    plans = pd.read_sql("SELECT * FROM plans;", conn)
-    statuses = pd.read_sql("SELECT * FROM statuses;", conn)
-    notifications = pd.read_sql("SELECT * FROM notifications;", conn)
-    return partners, countries, plans, statuses, notifications
+partners, countries, plans, statuses, notifications = load_data(conn)
 
-partners, countries, plans, statuses, notifications = load_data()
 
 # =============================
 # PREPARACIÓN / MERGE
