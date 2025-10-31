@@ -189,15 +189,28 @@ st.markdown(
 )
 
 # ============================================================
-# FECHA Y HORA DE ACTUALIZACIÓN
+# FECHA Y HORA DE ACTUALIZACIÓN (hora local del visitante)
 # ============================================================
-from datetime import datetime
-
-ultima_actualizacion = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-
-st.markdown(
-    f"<p style='color:#6cb4e4; font-size:14px; margin-top:-10px;'>📅 Datos actualizados al {ultima_actualizacion}</p>",
-    unsafe_allow_html=True
+st.components.v1.html(
+    """
+    <div id="update-time" style="color:#6cb4e4; font-size:14px; margin-top:-10px;">
+        🔄 Actualizando datos...
+    </div>
+    <script>
+        // Esperamos unos segundos para simular carga de datos
+        setTimeout(() => {
+            const now = new Date();
+            const options = {
+                year: 'numeric', month: '2-digit', day: '2-digit',
+                hour: '2-digit', minute: '2-digit', second: '2-digit'
+            };
+            const localTime = now.toLocaleString([], options);
+            document.getElementById("update-time").innerHTML = 
+                "📅 Datos actualizados al " + localTime;
+        }, 1500);
+    </script>
+    """,
+    height=40
 )
 
 
