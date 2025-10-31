@@ -447,7 +447,7 @@ map_data["País"] = map_data["País"].replace({
     "Venezuela": "Venezuela",
     "Costa Rica": "Costa Rica",
     "Panamá": "Panama",
-    "Canada": "Canada"
+    "Canadá": "Canada"
 })
 
 # Mapa coroplético centrado en América completa
