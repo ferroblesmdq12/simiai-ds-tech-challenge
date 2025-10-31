@@ -462,7 +462,7 @@ fig_map = px.choropleth(
 fig_map.update_layout(
     geo=dict(
         projection_type="natural earth",   # proyección más natural
-        scope="south america",             # muestra América del Sur
+        scope="world",             # muestra América del Sur
         lonaxis_range=[-180, -30],         # ajusta el rango de longitud
         lataxis_range=[-60, 70],           # incluye toda América del Norte y Sur
         showframe=False,
