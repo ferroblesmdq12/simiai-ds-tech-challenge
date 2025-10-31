@@ -4,13 +4,12 @@
 # Autor: Fernando Raúl Robles
 # ===========================================
 
-# src/db_connection.py
 import streamlit as st
 import psycopg2
 
 @st.cache_resource
 def init_connection():
-    """Establece una única conexión persistente a Neon.tech"""
+    """Crea una conexión persistente a Neon.tech"""
     try:
         conn = psycopg2.connect(
             host="ep-red-feather-aca9j4sc-pooler.sa-east-1.aws.neon.tech",
@@ -22,5 +21,18 @@ def init_connection():
         )
         return conn
     except Exception as e:
-        st.error(f"Error de conexión: {e}")
+        st.error(f"❌ Error creando conexión: {e}")
         return None
+
+
+def ensure_connection():
+    """Verifica y reabre la conexión si está cerrada."""
+    conn = init_connection()
+    try:
+        cur = conn.cursor()
+        cur.execute("SELECT 1;")
+        cur.close()
+        return conn
+    except psycopg2.InterfaceError:
+        st.warning("♻️ Conexión cerrada, reabriendo...")
+        return init_connection()
