@@ -21,7 +21,9 @@ def init_connection():
         )
         return conn
     except Exception as e:
-        st.error(f"❌ Error creando conexión: {e}")
-        return None
+        st.sidebar.warning(f"Intento {attempt+1}/{retries} fallido: {e}")
+        time.sleep(delay)
+    st.sidebar.error("❌ No se pudo conectar con Neon.tech tras varios intentos.")
+    return None
 
 
