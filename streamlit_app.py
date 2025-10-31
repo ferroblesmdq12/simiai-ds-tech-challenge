@@ -189,6 +189,19 @@ st.markdown(
 )
 
 # ============================================================
+# FECHA Y HORA DE ACTUALIZACIÓN
+# ============================================================
+from datetime import datetime
+
+ultima_actualizacion = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+
+st.markdown(
+    f"<p style='color:#6cb4e4; font-size:14px; margin-top:-10px;'>📅 Datos actualizados al {ultima_actualizacion}</p>",
+    unsafe_allow_html=True
+)
+
+
+# ============================================================
 # NIVEL 1 — VISIÓN GENERAL (tarjetas KPI)
 # ============================================================
 
