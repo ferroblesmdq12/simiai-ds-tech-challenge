@@ -416,6 +416,56 @@ st.plotly_chart(fig_industria, use_container_width=True)
 
 
 # ============================================================
+# NIVEL 6 — MAPA GEOGRÁFICO DE PARTNERS EN AMÉRICA
+# ============================================================
+
+st.markdown(
+    "<h3 style='color:#6cb4e4;'>🌎 Distribución Geográfica de Partners en América</h3>",
+    unsafe_allow_html=True
+)
+
+# Agrupamos cantidad de partners por país
+map_data = (
+    merged.groupby("País")["Partner"]
+    .count()
+    .reset_index()
+    .rename(columns={"Partner": "CantidadPartners"})
+)
+
+# Corrección de nombres de países (si hay diferencias con nombres ISO)
+# Ejemplo: map_data["País"].replace({"EEUU": "United States", "México": "Mexico"}, inplace=True)
+
+# Creamos el mapa
+fig_map = px.choropleth(
+    map_data,
+    locations="País",
+    locationmode="country names",
+    color="CantidadPartners",
+    color_continuous_scale="Blues",
+    title="Cantidad de Partners por País (América)",
+    labels={"CantidadPartners": "Partners"},
+    scope="north america",  # mostramos América del Norte y Sur
+)
+
+# Personalizamos el tema oscuro
+fig_map.update_layout(
+    geo=dict(
+        bgcolor=BACKGROUND_COLOR,
+        lakecolor=BACKGROUND_COLOR,
+        landcolor="#1c1c1c",
+        projection_scale=1.3,
+        center={"lat": 5, "lon": -75}  # centrado en América
+    ),
+    paper_bgcolor=BACKGROUND_COLOR,
+    font=dict(color=TEXT_COLOR),
+    title_font=dict(size=18, color="#6cb4e4"),
+)
+
+st.plotly_chart(fig_map, use_container_width=True)
+
+
+
+# ============================================================
 # INSIGHTS FINALES
 # ============================================================
 st.markdown(
