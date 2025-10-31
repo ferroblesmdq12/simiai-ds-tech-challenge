@@ -46,6 +46,17 @@ else:
 # CARGA DE DATOS
 # =============================
 
+test_query = "SELECT NOW();"
+try:
+    cur = conn.cursor()
+    cur.execute(test_query)
+    result = cur.fetchone()
+    cur.close()
+    st.sidebar.info(f"🕒 Conexión verificada: {result[0]}")
+except Exception as e:
+    st.sidebar.error(f"❌ Error verificando conexión: {e}")
+
+
 # Limpieza manual opcional de caché (solo durante desarrollo)
 # st.cache_data.clear()
 
