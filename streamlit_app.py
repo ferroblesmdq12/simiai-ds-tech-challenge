@@ -17,7 +17,7 @@ import datetime
 # CONFIG INICIAL
 # =============================
 st.set_page_config(
-    page_title="Sistema de Partners - SimiAI",
+    page_title="Sistema de Partners",
     layout="wide"
 )
 
@@ -39,7 +39,26 @@ def connect_db():
         st.error(f"Error de conexión: {e}")
         return None
 
+# Intento inicial (usa sesión para evitar reconexiones múltiples)
+if "conn" not in st.session_state or st.session_state.conn is None:
+    st.session_state.conn = connect_db()
+
 conn = connect_db()
+
+# Verifica que la conexión esté activa
+if conn is not None:
+    try:
+        cur = conn.cursor()
+        cur.execute("SELECT NOW();")
+        cur.close()
+        st.sidebar.success("🟢 Conectado a Neon.tech")
+    except (Exception, psycopg2.InterfaceError):
+        st.sidebar.warning("🔄 Reconectando con Neon...")
+        time.sleep(3)
+        st.session_state.conn = connect_db()
+        conn = st.session_state.conn
+else:
+    st.sidebar.error("❌ No se pudo establecer conexión con la base de datos.")
 
 # =============================
 # CARGA DE DATOS
