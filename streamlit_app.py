@@ -63,6 +63,12 @@ else:
 # =============================
 # CARGA DE DATOS
 # =============================
+
+# =================================
+# Limpiamos cache para desarrollo
+# =================================
+st.cache_data.clear()
+
 @st.cache_data
 def load_data():
     partners = pd.read_sql("SELECT * FROM partners;", conn)
