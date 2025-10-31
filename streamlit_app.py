@@ -40,7 +40,8 @@ from src.data_loader import load_data
 # 🔹 Limpieza manual opcional de cache (solo en desarrollo)
 # st.cache_data.clear()
 
-partners, countries, plans, statuses, notifications = load_data(conn)
+partners, countries, plans, statuses, notifications = load_data()
+
 
 
 # =============================
