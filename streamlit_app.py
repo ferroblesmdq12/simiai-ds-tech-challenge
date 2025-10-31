@@ -52,10 +52,22 @@ try:
     cur.execute(test_query)
     result = cur.fetchone()
     cur.close()
-    st.sidebar.info(f"🕒 Conexión verificada: {result[0]}")
-except Exception as e:
-    st.sidebar.error(f"❌ Error verificando conexión: {e}")
+    st.sidebar.success(f"🟢 Conectado a Neon.tech ({result[0]})")
 
+except psycopg2.InterfaceError:
+    st.sidebar.warning("♻️ Conexión cerrada, reabriendo...")
+    try:
+        conn = init_connection()
+        cur = conn.cursor()
+        cur.execute(test_query)
+        result = cur.fetchone()
+        cur.close()
+        st.sidebar.success(f"🟢 Reconectado a Neon.tech ({result[0]})")
+    except Exception as e:
+        st.sidebar.error(f"❌ Error reconectando a Neon.tech: {e}")
+
+except Exception as e:
+    st.sidebar.error(f"⚠️ Error verificando conexión: {e}")
 
 # Limpieza manual opcional de caché (solo durante desarrollo)
 # st.cache_data.clear()
@@ -375,17 +387,18 @@ st.markdown(
     "<h3 style='color:#6cb4e4;'>✅ Insights Clave</h3>",
     unsafe_allow_html=True
 )
+ 
+# -- MEJORAR ESTO !!! ---
+# st.markdown(
+#     """
+#     <ul style="color:#E0E0E0; font-size:15px; line-height:1.5;">
+#         <li>Los planes Premium y Enterprise concentran la mayor cantidad de partners activos<li>
+#         <li>El crecimiento mensual muestra una tendencia positiva entre abril y septiembre<li>
+#         <li>Argentina, México y Colombia lideran en cantidad de partners activos<li>
+#         <li>Los planes de mayor costo presentan más notificaciones, indicando mayor compromiso<li>
+#         <li>Se identifican oportunidades de expansión en países con menor representación<li>
 
-st.markdown(
-    """
-    <ul style="color:#E0E0E0; font-size:15px; line-height:1.5;">
-        <li>Los planes Premium y Enterprise concentran la mayor cantidad de partners activos<li>
-        <li>El crecimiento mensual muestra una tendencia positiva entre abril y septiembre<li>
-        <li>Argentina, México y Colombia lideran en cantidad de partners activos<li>
-        <li>Los planes de mayor costo presentan más notificaciones, indicando mayor compromiso<li>
-        <li>Se identifican oportunidades de expansión en países con menor representación<li>
-
-    </ul>
-    """,
-    unsafe_allow_html=True
-)
+#     </ul>
+#     """,
+#     unsafe_allow_html=True
+# )
