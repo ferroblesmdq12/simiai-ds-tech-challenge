@@ -432,7 +432,7 @@ map_data = (
 
 # Corrección opcional de nombres de países
 map_data["País"] = map_data["País"].replace({
-    "EEUU": "United States of America",
+    "Estados Unidos": "United States of America",
     "USA": "United States",
     "México": "Mexico",
     "Argentina": "Argentina",
