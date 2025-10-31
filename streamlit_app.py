@@ -381,6 +381,41 @@ col_top.plotly_chart(fig_top, use_container_width=True)
 st.markdown("---")
 
 # ============================================================
+# NIVEL 5 — DISTRIBUCIÓN DE PARTNERS POR INDUSTRIA
+# ============================================================
+
+st.markdown(
+    "<h3 style='color:#6cb4e4;'>🏭 Distribución de Partners por Industria</h3>",
+    unsafe_allow_html=True
+)
+
+# Agrupamos los partners por industria
+industria_counts = (
+    partners
+    .groupby("industry")["id_partner"]
+    .count()
+    .reset_index()
+    .rename(columns={"industry": "Industria", "id_partner": "Cantidad"})
+    .sort_values("Cantidad", ascending=False)
+)
+
+# Creamos el gráfico
+fig_industria = px.bar(
+    industria_counts,
+    x="Industria",
+    y="Cantidad",
+    color="Industria",
+    title="Cantidad de Partners por Industria",
+    text="Cantidad",
+    color_discrete_sequence=COLOR_PALETTE
+)
+
+fig_industria.update_traces(textposition="outside")
+apply_dark_theme(fig_industria)
+st.plotly_chart(fig_industria, use_container_width=True)
+
+
+# ============================================================
 # INSIGHTS FINALES
 # ============================================================
 st.markdown(
