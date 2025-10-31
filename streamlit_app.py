@@ -432,7 +432,7 @@ map_data = (
 
 # Corrección opcional de nombres de países
 map_data["País"] = map_data["País"].replace({
-    "EEUU": "United States",
+    "EEUU": "United States of America",
     "México": "Mexico",
     "Argentina": "Argentina",
     "Colombia": "Colombia",
@@ -445,7 +445,8 @@ map_data["País"] = map_data["País"].replace({
     "Ecuador": "Ecuador",
     "Venezuela": "Venezuela",
     "Costa Rica": "Costa Rica",
-    "Panamá": "Panama"
+    "Panamá": "Panama",
+    "Canada": "Canada"
 })
 
 # Mapa coroplético centrado en América completa
