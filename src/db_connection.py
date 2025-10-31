@@ -25,14 +25,3 @@ def init_connection():
         return None
 
 
-def ensure_connection():
-    """Verifica y reabre la conexión si está cerrada."""
-    conn = init_connection()
-    try:
-        cur = conn.cursor()
-        cur.execute("SELECT 1;")
-        cur.close()
-        return conn
-    except psycopg2.InterfaceError:
-        st.warning("♻️ Conexión cerrada, reabriendo...")
-        return init_connection()
