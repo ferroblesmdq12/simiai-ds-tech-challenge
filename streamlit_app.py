@@ -53,4 +53,11 @@ merged = (
     .merge(statuses,  left_on="status_id",  right_on="id_status",  how="left")
 )
 
-merged.rena
+merged.rename(columns={
+    "partner_name": "Partner",
+    "country_name": "País",
+    "plan_name":    "Plan",
+    "status_name":  "Estado",
+    "join_date":    "FechaAlta"
+}, inplace=True)
+
