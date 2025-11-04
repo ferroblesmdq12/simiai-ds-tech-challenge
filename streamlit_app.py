@@ -241,6 +241,113 @@ with col_kpi4:
 st.markdown("---")
 
 # ============================================================
+# NIVEL 1B — KPIs AVANZADOS Y CORRELACIÓN DE VARIABLES
+# ============================================================
+
+st.markdown(
+    "<h3 style='color:#6cb4e4;'>📊 Indicadores Avanzados y Relaciones</h3>",
+    unsafe_allow_html=True
+)
+
+# ========================================
+# KPI 1 — Tasa de Crecimiento Mensual (%)
+# ========================================
+# Tomamos las altas mensuales (ya creadas en 'evolucion')
+if len(evolucion) >= 2:
+    altas_mes_actual = evolucion["NuevosPartners"].iloc[-1]
+    altas_mes_prev = evolucion["NuevosPartners"].iloc[-2]
+    tasa_crecimiento = ((altas_mes_actual - altas_mes_prev) / altas_mes_prev) * 100 if altas_mes_prev > 0 else 0
+else:
+    tasa_crecimiento = 0
+
+# ========================================
+# KPI 2 — Antigüedad Promedio de Partners (meses)
+# ========================================
+hoy = pd.Timestamp.now()
+filtered["AntiguedadMeses"] = ((hoy - filtered["FechaAlta"]).dt.days / 30).round(1)
+antiguedad_prom = filtered["AntiguedadMeses"].mean().round(1)
+
+# ========================================
+# KPI 3 — País con Más Altas Recientes
+# ========================================
+# Consideramos el último mes disponible en 'evolucion'
+if not filtered.empty:
+    mes_reciente = filtered["FechaAlta"].dt.to_period("M").max()
+    ultimas_altas = filtered[filtered["FechaAlta"].dt.to_period("M") == mes_reciente]
+    pais_top = ultimas_altas["País"].value_counts().idxmax()
+    altas_top = ultimas_altas["País"].value_counts().max()
+else:
+    pais_top, altas_top = "Sin datos", 0
+
+# ========================================
+# VISUALIZACIÓN DE KPIs (tarjetas)
+# ========================================
+col_kpiA, col_kpiB, col_kpiC = st.columns(3)
+
+with col_kpiA:
+    st.metric(
+        "📈 Tasa de Crecimiento Mensual",
+        f"{tasa_crecimiento:.1f}%",
+        delta=f"{altas_mes_actual - altas_mes_prev:+d} altas vs mes previo"
+    )
+
+with col_kpiB:
+    st.metric(
+        "🕓 Antigüedad Promedio",
+        f"{antiguedad_prom} meses",
+        delta=None
+    )
+
+with col_kpiC:
+    st.metric(
+        "🌍 País con Más Altas Recientes",
+        f"{pais_top} ({altas_top})",
+        delta=None
+    )
+
+st.markdown("---")
+
+# ============================================================
+# GRÁFICO DE CORRELACIÓN — Antigüedad vs Notificaciones
+# ============================================================
+
+st.markdown(
+    "<h4 style='color:#6cb4e4;'>🔗 Relación entre Antigüedad y Nivel de Actividad</h4>",
+    unsafe_allow_html=True
+)
+
+# Mergeamos con notifications para obtener 'notification_count'
+corr_df = (
+    notifications
+    .merge(partners, left_on="partner_id", right_on="id_partner")
+    .merge(plans, left_on="plan_id", right_on="id_plan")
+)
+
+# Calculamos antigüedad y aseguramos columnas numéricas
+corr_df["FechaAlta"] = pd.to_datetime(corr_df["join_date"])
+corr_df["AntiguedadMeses"] = ((hoy - corr_df["FechaAlta"]).dt.days / 30).round(1)
+
+# Creamos scatter con tendencia
+fig_corr = px.scatter(
+    corr_df,
+    x="AntiguedadMeses",
+    y="notification_count",
+    color="plan_name",
+    trendline="ols",
+    title="Correlación entre Antigüedad del Partner y Notificaciones",
+    labels={
+        "AntiguedadMeses": "Antigüedad (meses)",
+        "notification_count": "Cantidad de Notificaciones",
+        "plan_name": "Plan"
+    },
+    color_discrete_sequence=COLOR_PALETTE
+)
+
+apply_dark_theme(fig_corr)
+st.plotly_chart(fig_corr, use_container_width=True)
+
+
+# ============================================================
 # NIVEL 2 — DISTRIBUCIÓN ALTA NIVEL
 #    - Estado (Activos vs No Activos)
 #    - Distribución geográfica
