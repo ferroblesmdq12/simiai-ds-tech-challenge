@@ -175,6 +175,24 @@ notif_full = (
     .merge(plans,    left_on="plan_id",    right_on="id_plan")
 )
 
+# ============================================================
+# CREACIÓN DE DATAFRAMES DERIVADOS (ANTES DE USARLOS)
+# ============================================================
+
+# Aseguramos columna MesAlta y DataFrame evolución
+if not filtered.empty and "FechaAlta" in filtered.columns:
+    filtered["MesAlta"] = filtered["FechaAlta"].dt.to_period("M").astype(str)
+    evolucion = (
+        filtered.groupby("MesAlta")["Partner"]
+        .count()
+        .reset_index()
+        .rename(columns={"Partner": "NuevosPartners"})
+        .sort_values("MesAlta")
+    )
+else:
+    evolucion = pd.DataFrame(columns=["MesAlta", "NuevosPartners"])
+
+
 # =============================
 # HEADER (título)
 # =============================
