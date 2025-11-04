@@ -195,105 +195,6 @@ col_kpi4.metric(" Promedio Notificaciones", prom_notif_global)
 
 st.markdown("---")
 
-# ============================================================
-# NIVEL 1B — KPIs AVANZADOS Y CORRELACIÓN DE VARIABLES
-# ============================================================
-st.markdown("<h3 style='color:#6cb4e4;'>📊 Indicadores Avanzados y Relaciones</h3>", unsafe_allow_html=True)
-
-# Serie mensual para crecimiento (según filtro)
-if not filtered.empty:
-    filtered["MesAlta"] = filtered["FechaAlta"].dt.to_period("M").astype(str)
-    evolucion = (
-        filtered.groupby("MesAlta")["Partner"]
-        .count()
-        .reset_index()
-        .rename(columns={"Partner": "NuevosPartners"})
-        .sort_values("MesAlta")
-    )
-else:
-    evolucion = pd.DataFrame(columns=["MesAlta", "NuevosPartners"])
-
-# KPI 1 — Tasa de Crecimiento Mensual
-if len(evolucion) >= 2:
-    altas_mes_actual = int(evolucion["NuevosPartners"].iloc[-1])
-    altas_mes_prev   = int(evolucion["NuevosPartners"].iloc[-2])
-    tasa_crecimiento = ( (altas_mes_actual - altas_mes_prev) / altas_mes_prev * 100 ) if altas_mes_prev > 0 else 0.0
-else:
-    altas_mes_actual, altas_mes_prev, tasa_crecimiento = 0, 0, 0.0
-
-# KPI 2 — Antigüedad Promedio (meses)
-hoy = pd.Timestamp.now()
-if not filtered.empty:
-    filtered["AntiguedadMeses"] = ((hoy - filtered["FechaAlta"]).dt.days / 30).round(1)
-    antiguedad_prom = float(filtered["AntiguedadMeses"].mean().round(1))
-else:
-    antiguedad_prom = 0.0
-
-# KPI 3 — País con Más Altas Recientes
-if not filtered.empty:
-    mes_reciente = filtered["FechaAlta"].dt.to_period("M").max()
-    ultimas_altas = filtered[filtered["FechaAlta"].dt.to_period("M") == mes_reciente]
-    if not ultimas_altas.empty:
-        pais_top = str(ultimas_altas["País"].value_counts().idxmax())
-        altas_top = int(ultimas_altas["País"].value_counts().max())
-    else:
-        pais_top, altas_top = "Sin datos", 0
-else:
-    pais_top, altas_top = "Sin datos", 0
-
-# Tarjetas KPI avanzados
-col_kpiA, col_kpiB, col_kpiC = st.columns(3)
-col_kpiA.metric("📈 Crecimiento Mensual", f"{tasa_crecimiento:.1f}%", delta=f"{altas_mes_actual - altas_mes_prev:+d}")
-col_kpiB.metric("🕓 Antigüedad Promedio", f"{antiguedad_prom:.1f} meses")
-col_kpiC.metric("🌍 País con Más Altas", f"{pais_top} ({altas_top})")
-
-st.markdown("---")
-
-# ============================================================
-# GRÁFICO DE CORRELACIÓN — Antigüedad vs Notificaciones
-# ============================================================
-st.markdown("<h4 style='color:#6cb4e4;'>🔗 Relación entre Antigüedad y Nivel de Actividad</h4>", unsafe_allow_html=True)
-
-# Vinculamos notificaciones con el subconjunto filtrado (por partner visible)
-corr_df = pd.DataFrame()
-if not notif_full.empty and not filtered.empty:
-    corr_df = (
-        notif_full
-        .merge(
-            filtered[["id_partner", "Partner", "FechaAlta", "Plan", "País"]],
-            left_on="id_partner", right_on="id_partner", how="inner"
-        )
-    )
-if not corr_df.empty:
-    corr_df["AntiguedadMeses"] = ((hoy - corr_df["FechaAlta"]).dt.days / 30).round(1)
-    # Trendline puede requerir statsmodels; lo hacemos robusto
-    try:
-        fig_corr = px.scatter(
-            corr_df,
-            x="AntiguedadMeses",
-            y="notification_count",
-            color="Plan",
-            trendline="ols",
-            title="Correlación entre Antigüedad del Partner y Notificaciones",
-            labels={"AntiguedadMeses": "Antigüedad (meses)", "notification_count": "Notificaciones"},
-            color_discrete_sequence=COLOR_PALETTE
-        )
-    except Exception:
-        fig_corr = px.scatter(
-            corr_df,
-            x="AntiguedadMeses",
-            y="notification_count",
-            color="Plan",
-            title="Correlación entre Antigüedad del Partner y Notificaciones",
-            labels={"AntiguedadMeses": "Antigüedad (meses)", "notification_count": "Notificaciones"},
-            color_discrete_sequence=COLOR_PALETTE
-        )
-    apply_dark_theme(fig_corr)
-    st.plotly_chart(fig_corr, use_container_width=True)
-else:
-    st.info("⚠️ No hay datos suficientes para mostrar correlación con los filtros aplicados.")
-
-st.markdown("---")
 
 # ============================================================
 # NIVEL 2 — DISTRIBUCIÓN ALTA NIVEL
@@ -519,6 +420,107 @@ if not filtered.empty:
     st.plotly_chart(fig_map, use_container_width=True)
 else:
     st.info("Sin datos para el mapa con los filtros actuales.")
+
+# ============================================================
+# NIVEL 1B — KPIs AVANZADOS Y CORRELACIÓN DE VARIABLES
+# ============================================================
+st.markdown("<h3 style='color:#6cb4e4;'>📊 Indicadores Avanzados y Relaciones</h3>", unsafe_allow_html=True)
+
+# Serie mensual para crecimiento (según filtro)
+if not filtered.empty:
+    filtered["MesAlta"] = filtered["FechaAlta"].dt.to_period("M").astype(str)
+    evolucion = (
+        filtered.groupby("MesAlta")["Partner"]
+        .count()
+        .reset_index()
+        .rename(columns={"Partner": "NuevosPartners"})
+        .sort_values("MesAlta")
+    )
+else:
+    evolucion = pd.DataFrame(columns=["MesAlta", "NuevosPartners"])
+
+# KPI 1 — Tasa de Crecimiento Mensual
+if len(evolucion) >= 2:
+    altas_mes_actual = int(evolucion["NuevosPartners"].iloc[-1])
+    altas_mes_prev   = int(evolucion["NuevosPartners"].iloc[-2])
+    tasa_crecimiento = ( (altas_mes_actual - altas_mes_prev) / altas_mes_prev * 100 ) if altas_mes_prev > 0 else 0.0
+else:
+    altas_mes_actual, altas_mes_prev, tasa_crecimiento = 0, 0, 0.0
+
+# KPI 2 — Antigüedad Promedio (meses)
+hoy = pd.Timestamp.now()
+if not filtered.empty:
+    filtered["AntiguedadMeses"] = ((hoy - filtered["FechaAlta"]).dt.days / 30).round(1)
+    antiguedad_prom = float(filtered["AntiguedadMeses"].mean().round(1))
+else:
+    antiguedad_prom = 0.0
+
+# KPI 3 — País con Más Altas Recientes
+if not filtered.empty:
+    mes_reciente = filtered["FechaAlta"].dt.to_period("M").max()
+    ultimas_altas = filtered[filtered["FechaAlta"].dt.to_period("M") == mes_reciente]
+    if not ultimas_altas.empty:
+        pais_top = str(ultimas_altas["País"].value_counts().idxmax())
+        altas_top = int(ultimas_altas["País"].value_counts().max())
+    else:
+        pais_top, altas_top = "Sin datos", 0
+else:
+    pais_top, altas_top = "Sin datos", 0
+
+# Tarjetas KPI avanzados
+col_kpiA, col_kpiB, col_kpiC = st.columns(3)
+col_kpiA.metric("📈 Crecimiento Mensual", f"{tasa_crecimiento:.1f}%", delta=f"{altas_mes_actual - altas_mes_prev:+d}")
+col_kpiB.metric("🕓 Antigüedad Promedio", f"{antiguedad_prom:.1f} meses")
+col_kpiC.metric("🌍 País con Más Altas", f"{pais_top} ({altas_top})")
+
+st.markdown("---")
+
+# ============================================================
+# GRÁFICO DE CORRELACIÓN — Antigüedad vs Notificaciones
+# ============================================================
+st.markdown("<h4 style='color:#6cb4e4;'>🔗 Relación entre Antigüedad y Nivel de Actividad</h4>", unsafe_allow_html=True)
+
+# Vinculamos notificaciones con el subconjunto filtrado (por partner visible)
+corr_df = pd.DataFrame()
+if not notif_full.empty and not filtered.empty:
+    corr_df = (
+        notif_full
+        .merge(
+            filtered[["id_partner", "Partner", "FechaAlta", "Plan", "País"]],
+            left_on="id_partner", right_on="id_partner", how="inner"
+        )
+    )
+if not corr_df.empty:
+    corr_df["AntiguedadMeses"] = ((hoy - corr_df["FechaAlta"]).dt.days / 30).round(1)
+    # Trendline puede requerir statsmodels; lo hacemos robusto
+    try:
+        fig_corr = px.scatter(
+            corr_df,
+            x="AntiguedadMeses",
+            y="notification_count",
+            color="Plan",
+            trendline="ols",
+            title="Correlación entre Antigüedad del Partner y Notificaciones",
+            labels={"AntiguedadMeses": "Antigüedad (meses)", "notification_count": "Notificaciones"},
+            color_discrete_sequence=COLOR_PALETTE
+        )
+    except Exception:
+        fig_corr = px.scatter(
+            corr_df,
+            x="AntiguedadMeses",
+            y="notification_count",
+            color="Plan",
+            title="Correlación entre Antigüedad del Partner y Notificaciones",
+            labels={"AntiguedadMeses": "Antigüedad (meses)", "notification_count": "Notificaciones"},
+            color_discrete_sequence=COLOR_PALETTE
+        )
+    apply_dark_theme(fig_corr)
+    st.plotly_chart(fig_corr, use_container_width=True)
+else:
+    st.info("⚠️ No hay datos suficientes para mostrar correlación con los filtros aplicados.")
+
+st.markdown("---")
+
 
 # ============================================================
 # INSIGHTS FINALES
