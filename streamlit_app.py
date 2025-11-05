@@ -774,7 +774,7 @@ st.markdown("""
     </style>
 
     <div style='text-align: center;'>
-        <a href='http://localhost:8502' target='_blank' class='open-model-btn'>
+         <a href='modelo' target='_blank' class='open-model-btn'>
             🧠 Ver modelo de Machine Learning
         </a>
     </div>
