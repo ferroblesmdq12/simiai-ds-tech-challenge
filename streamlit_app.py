@@ -743,3 +743,12 @@ if insights:
     st.markdown(html, unsafe_allow_html=True)
 else:
     st.info("No hay insights disponibles para los filtros seleccionados.")
+
+# =====================================================
+# BOTÓN PARA ABRIR PÁGINA DEL MODELO
+# =====================================================
+st.markdown("---")
+st.markdown("### 🔍 ¿Querés explorar el modelo de Machine Learning?")
+if st.button("🧠 Ver modelo de ML en nueva página"):
+    js = "window.open('modelo','_blank').focus();"
+    st.markdown(f"<script>{js}</script>", unsafe_allow_html=True)
