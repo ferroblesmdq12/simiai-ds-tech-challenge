@@ -745,10 +745,38 @@ else:
     st.info("No hay insights disponibles para los filtros seleccionados.")
 
 # =====================================================
-# BOTÓN PARA ABRIR PÁGINA DEL MODELO
+# BOTÓN PARA ABRIR PÁGINA DEL MODELO (MISMO ESTILO)
 # =====================================================
-st.markdown("---")
-st.markdown("### 🔍 ¿Querés explorar el modelo de Machine Learning?")
-if st.button("🧠 Ver modelo de ML en nueva página"):
-    js = "window.open('modelo','_blank').focus();"
-    st.markdown(f"<script>{js}</script>", unsafe_allow_html=True)
+st.markdown("""
+    <style>
+    .open-model-btn {
+        display: block;
+        margin: 50px auto 100px auto;
+        background-color: #2d2f33;
+        color: #f0f2f6;
+        border: none;
+        border-radius: 12px;
+        padding: 14px 35px;
+        font-size: 17px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        text-align: center;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .open-model-btn:hover {
+        background-color: #4f9bee;
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0px 4px 12px rgba(79, 155, 238, 0.6);
+    }
+    </style>
+
+    <div style='text-align: center;'>
+        <a href='/modelo' target='_blank' class='open-model-btn'>
+            🧠 Ver modelo de Machine Learning
+        </a>
+    </div>
+""", unsafe_allow_html=True)
