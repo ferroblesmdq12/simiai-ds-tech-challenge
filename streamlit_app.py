@@ -744,12 +744,23 @@ if insights:
 else:
     st.info("No hay insights disponibles para los filtros seleccionados.")
 
+
 # =====================================================
-# BOTÓN PARA ABRIR PÁGINA DEL MODELO (MISMO ESTILO, FUNCIONAL)
+# BOTÓN PARA ABRIR PÁGINA DEL MODELO (FUNCIONAL EN LOCAL Y DEPLOY)
 # =====================================================
-st.markdown("""
+current_url = st.experimental_get_query_params()
+base_url = st.experimental_get_websocket_url()
+
+# Si no se puede obtener el websocket (algunos entornos), usar puerto 8501 por defecto
+if base_url:
+    modelo_url = base_url.replace("ws://", "http://").replace("wss://", "https://")
+    modelo_url = modelo_url.split("/_stcore")[0] + "/modelo"
+else:
+    modelo_url = "http://localhost:8501/modelo"
+
+st.markdown(f"""
     <style>
-    .open-model-btn {
+    .open-model-btn {{
         display: block;
         margin: 50px auto 100px auto;
         background-color: #2d2f33;
@@ -764,17 +775,17 @@ st.markdown("""
         text-decoration: none;
         text-align: center;
         box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
-    }
-    .open-model-btn:hover {
+    }}
+    .open-model-btn:hover {{
         background-color: #4f9bee;
         color: white;
         transform: translateY(-3px);
         box-shadow: 0px 4px 12px rgba(79, 155, 238, 0.6);
-    }
+    }}
     </style>
 
     <div style='text-align: center;'>
-         <a href='/modelo' target='_blank' class='open-model-btn'>
+        <a href='{modelo_url}' target='_blank' class='open-model-btn'>
             🧠 Ver modelo de Machine Learning
         </a>
     </div>
