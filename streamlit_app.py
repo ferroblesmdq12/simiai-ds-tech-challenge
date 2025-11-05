@@ -746,18 +746,20 @@ else:
 
 
 # =====================================================
-# BOTÓN PARA ABRIR PÁGINA DEL MODELO (FUNCIONAL EN LOCAL Y DEPLOY)
+# BOTÓN PARA ABRIR PÁGINA DEL MODELO (COMPATIBLE Y FUNCIONAL)
 # =====================================================
-current_url = st.experimental_get_query_params()
-base_url = st.experimental_get_websocket_url()
 
-# Si no se puede obtener el websocket (algunos entornos), usar puerto 8501 por defecto
-if base_url:
-    modelo_url = base_url.replace("ws://", "http://").replace("wss://", "https://")
-    modelo_url = modelo_url.split("/_stcore")[0] + "/modelo"
-else:
+import streamlit as st
+
+# Intentar obtener la URL base automáticamente (compatible)
+try:
+    base_url = st.runtime.scriptrunner.get_script_run_ctx().streamlit_script_run_ctx.session_data.browser_host
+    modelo_url = f"http://{base_url}/modelo"
+except Exception:
+    # Si no se puede detectar, usa el puerto por defecto
     modelo_url = "http://localhost:8501/modelo"
 
+# Render del botón con estilo
 st.markdown(f"""
     <style>
     .open-model-btn {{
