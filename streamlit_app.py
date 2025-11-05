@@ -745,7 +745,7 @@ else:
     st.info("No hay insights disponibles para los filtros seleccionados.")
 
 # =====================================================
-# BOTÓN PARA ABRIR PÁGINA DEL MODELO (MISMO ESTILO)
+# BOTÓN PARA ABRIR PÁGINA DEL MODELO (MISMO ESTILO, FUNCIONAL)
 # =====================================================
 st.markdown("""
     <style>
@@ -765,7 +765,6 @@ st.markdown("""
         text-align: center;
         box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
     }
-
     .open-model-btn:hover {
         background-color: #4f9bee;
         color: white;
@@ -775,7 +774,7 @@ st.markdown("""
     </style>
 
     <div style='text-align: center;'>
-        <a href='modelo' target='_blank' class='open-model-btn'>
+        <a href='http://localhost:8502' target='_blank' class='open-model-btn'>
             🧠 Ver modelo de Machine Learning
         </a>
     </div>
