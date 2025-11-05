@@ -615,24 +615,131 @@ st.plotly_chart(fig_corr, use_container_width=True)
 
 
 # ============================================================
-# INSIGHTS FINALES
+# INSIGHTS FINALES — Dinámicos según los datos actuales
 # ============================================================
 st.markdown(
     "<h3 style='color:#6cb4e4;'>✅ Insights Clave</h3>",
     unsafe_allow_html=True
 )
- 
-# -- MEJORAR ESTO !!! ---
-# st.markdown(
-#     """
-#     <ul style="color:#E0E0E0; font-size:15px; line-height:1.5;">
-#         <li>Los planes Premium y Enterprise concentran la mayor cantidad de partners activos<li>
-#         <li>El crecimiento mensual muestra una tendencia positiva entre abril y septiembre<li>
-#         <li>Argentina, México y Colombia lideran en cantidad de partners activos<li>
-#         <li>Los planes de mayor costo presentan más notificaciones, indicando mayor compromiso<li>
-#         <li>Se identifican oportunidades de expansión en países con menor representación<li>
 
-#     </ul>
-#     """,
-#     unsafe_allow_html=True
-# )
+insights = []
+
+# ---- Utilidades seguras ----
+def safe_vc_top(s, default=("Sin datos", 0)):
+    if s is None:
+        return default
+    vc = s.value_counts()
+    if vc.empty:
+        return default
+    return vc.idxmax(), int(vc.max())
+
+def fmt_pct(num, den):
+    return f"{(num/den*100):.1f}%" if den and den > 0 else "0.0%"
+
+# ---- 1) Estado general y actividad ----
+total_partners = len(filtered)
+activos_partners = len(filtered[filtered["Estado"] == "Activo"])
+porc_activos = fmt_pct(activos_partners, total_partners)
+
+if total_partners > 0:
+    insights.append(
+        f"La red filtrada cuenta con <b>{total_partners}</b> partners, de los cuales "
+        f"<b>{activos_partners}</b> están activos (<b>{porc_activos}</b>)."
+    )
+else:
+    insights.append("No hay partners para los filtros actuales.")
+
+# ---- 2) País/mercado líder (por volumen en el período) ----
+pais_top, pais_top_cnt = safe_vc_top(filtered["País"])
+if pais_top != "Sin datos":
+    insights.append(
+        f"El mercado con mayor presencia es <b>{pais_top}</b>, con <b>{pais_top_cnt}</b> partners en el período seleccionado."
+    )
+
+# ---- 3) Tendencia de crecimiento (evolución mensual) ----
+# Reusa 'evolucion' si existe; si no, la calculamos rápido
+if "evolucion" not in locals() or evolucion is None or evolucion.empty:
+    if not filtered.empty:
+        tmp = filtered.copy()
+        tmp["MesAlta"] = tmp["FechaAlta"].dt.to_period("M").astype(str)
+        evolucion = (
+            tmp.groupby("MesAlta")["Partner"]
+            .count()
+            .reset_index()
+            .rename(columns={"Partner": "NuevosPartners"})
+            .sort_values("MesAlta")
+        )
+    else:
+        evolucion = pd.DataFrame(columns=["MesAlta", "NuevosPartners"])
+
+if len(evolucion) >= 2:
+    altas_mes_actual = int(evolucion["NuevosPartners"].iloc[-1])
+    altas_mes_prev   = int(evolucion["NuevosPartners"].iloc[-2])
+    tasa_crecimiento = ((altas_mes_actual - altas_mes_prev) / altas_mes_prev * 100) if altas_mes_prev > 0 else 0.0
+    tendencia = "alza 📈" if tasa_crecimiento > 0 else ("baja 📉" if tasa_crecimiento < 0 else "estable ⚖️")
+    insights.append(
+        f"El ritmo de altas mensuales muestra una tendencia de <b>{tendencia}</b>: "
+        f"{altas_mes_actual} vs {altas_mes_prev} (Δ {tasa_crecimiento:.1f}%)."
+    )
+elif len(evolucion) == 1:
+    insights.append(
+        f"Se registraron <b>{int(evolucion['NuevosPartners'].iloc[-1])}</b> altas en el único mes del rango seleccionado."
+    )
+
+# ---- 4) Plan comercial predominante ----
+plan_top, plan_top_cnt = safe_vc_top(filtered["Plan"])
+if plan_top != "Sin datos":
+    insights.append(
+        f"El plan con mayor adopción es <b>{plan_top}</b> con <b>{plan_top_cnt}</b> partners, "
+        f"indicando preferencia por esa propuesta de valor."
+    )
+
+# ---- 5) Industria predominante (sobre el conjunto filtrado) ----
+if "industry" in filtered.columns and not filtered.empty:
+    ind_top, ind_top_cnt = safe_vc_top(filtered["industry"])
+    if ind_top != "Sin datos":
+        insights.append(
+            f"La industria más representada es <b>{ind_top}</b> con <b>{ind_top_cnt}</b> registros, "
+            f"lo que sugiere foco de captación en ese segmento."
+        )
+
+# ---- 6) Interacción/engagement (notificaciones) ----
+# Promedio global ya existe como 'prom_notif_global' (no filtrado); calculamos filtrado también:
+try:
+    notif_filtrado = (
+        notifications
+        .merge(partners, left_on="partner_id", right_on="id_partner")
+        .merge(plans,    left_on="plan_id",    right_on="id_plan")
+        .merge(filtered[["Partner"]], left_on="partner_name", right_on="Partner", how="inner")
+    )
+    prom_notif_filtrado = float(notif_filtrado["notification_count"].mean()) if not notif_filtrado.empty else 0.0
+except Exception:
+    prom_notif_filtrado = 0.0
+
+if prom_notif_filtrado > 0:
+    insights.append(
+        f"El nivel de interacción promedio (notificaciones) para el subconjunto filtrado es de "
+        f"<b>{prom_notif_filtrado:.1f}</b> por partner."
+    )
+
+# ---- 7) Señales para la acción (oportunidades) ----
+# Países con baja presencia relativa (bottom 3, si hay suficientes)
+geo_counts = (
+    filtered.groupby("País")["Partner"].count().reset_index().sort_values("Partner", ascending=True)
+    if not filtered.empty else pd.DataFrame(columns=["País","Partner"])
+)
+if len(geo_counts) >= 3:
+    low_markets = ", ".join(geo_counts.head(3)["País"].tolist())
+    insights.append(
+        f"Se detectan oportunidades de expansión en mercados con menor representación: <b>{low_markets}</b>."
+    )
+
+# ---- Render final ----
+if insights:
+    html = "<ul style='color:#E0E0E0; font-size:15px; line-height:1.5;'>"
+    for li in insights:
+        html += f"<li>{li}</li>"
+    html += "</ul>"
+    st.markdown(html, unsafe_allow_html=True)
+else:
+    st.info("No hay insights disponibles para los filtros seleccionados.")
