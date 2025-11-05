@@ -21,6 +21,9 @@ El sistema integra datos de países, planes, estados y notificaciones, generando
 - Evaluar desempeño comercial mediante **KPIs y métricas interactivas**.
 - Analizar la distribución geográfica y la evolución temporal de altas.
 - Visualizar actividad y engagement de los partners mediante **notificaciones**.
+- Analizar distribución geográfica, evolución temporal y engagement.  
+- Detectar oportunidades de expansión a partir de los datos filtrados.  
+- Proveer un resumen automático con **insights generados dinámicamente**.
 
 ---
 
@@ -28,18 +31,20 @@ El sistema integra datos de países, planes, estados y notificaciones, generando
 
 El proyecto está compuesto por tres capas principales:
 
-1. **Capa de Datos (PostgreSQL / Neon.tech)**
-   - Tablas: `countries`, `plans`, `statuses`, `partners`, `notifications`
-   - Relaciones definidas mediante claves foráneas (ver diagrama ERD).
+### 🔹 1. Capa de Datos (PostgreSQL / Neon.tech)
+- Tablas: `countries`, `plans`, `statuses`, `partners`, `notifications`
+- Relaciones establecidas mediante claves foráneas (3NF)
+- Conexión administrada con reconexión automática (`db_connection.py`)
 
-2. **Capa de Análisis (Python + Pandas)**
-   - Limpieza y merge de datos para análisis de KPIs.
-   - Cálculo de métricas clave: partners activos, notificaciones promedio, distribución por país, etc.
+### 🔹 2. Capa de Análisis (Python + Pandas)
+- Limpieza, merge y transformación de datos.  
+- Cálculo de KPIs: actividad, crecimiento, engagement, antigüedad, etc.  
+- Categorización temporal y detección de tendencias mensuales.
 
-3. **Capa de Visualización (Streamlit + Plotly)**
-   - Dashboard interactivo con filtros por país, plan y fecha.
-   - Gráficos dinámicos: barras, líneas, tortas y tarjetas de resumen.
-
+### 🔹 3. Capa de Visualización (Streamlit + Plotly)
+- Filtros combinables por país, plan y fecha.  
+- Visualizaciones interactivas en **modo oscuro**.  
+- Generación de *insights ejecutivos* adaptados a los filtros aplicados.
 ---
 
 ## 📊 Diagrama Entidad–Relación
@@ -66,7 +71,7 @@ El proyecto está compuesto por tres capas principales:
 - Python 3.11+
 - PostgreSQL (o una cuenta en [Neon.tech](https://neon.tech))
 - Git y Visual Studio Code  
-  *(opcional: soporte para Dev Containers o GitHub Codespaces)*
+  
 
 ---
 
@@ -90,20 +95,63 @@ streamlit run src/streamlit_app.py
 
 ver archivo PDF: ![Reporte analítico](reports/Reporte_Analítico_SimiAI.pdf)
 
+---
+### 📊 Análisis de Datos y KPIs
 
-| KPI                                     | Descripción                                                                |
-| --------------------------------------- | -------------------------------------------------------------------------- |
-| **Partners Activos por Plan**           | Muestra cuántos partners están activos según el plan comercial contratado. |
-| **Evolución de Altas Mensuales**        | Representa la tendencia de altas de nuevos partners por mes.               |
-| **Distribución Geográfica**             | Indica la cantidad de partners por país (gráfico horizontal).              |
-| **Promedio de Notificaciones por Plan** | Mide la actividad promedio de comunicación por plan.                       |
-| **Top 10 Partners por Notificaciones**  | Identifica los partners más activos en el sistema.                         |
+KPI	Descripción
+Total y Estado de Partners	Muestra el total y proporción de partners activos vs inactivos.
+Evolución de Altas Mensuales	Representa la tendencia temporal de nuevas altas.
+Distribución Geográfica	Indica la cantidad de partners por país en gráfico horizontal y mapa.
+Partners Activos por Plan	Permite analizar el desempeño comercial por tipo de plan.
+Distribución por Industria	Identifica los sectores con mayor presencia.
+Top 10 Partners por Notificaciones	Mide el nivel de interacción más alto dentro de la red.
+Tasa de Crecimiento Mensual (%)	Indica la variación porcentual entre meses consecutivos.
+Antigüedad Promedio (meses)	Calcula la media de tiempo desde el alta de cada partner.
+País con Más Altas Recientes	Identifica el país más activo en el último período.
+Correlación Antigüedad–Notificaciones	Muestra la relación entre experiencia del partner y actividad.
+🧠 Insights Clave (Automáticos)
 
+El sistema genera insights en lenguaje natural a partir de los datos filtrados:
+
+La red cuenta con 240 partners, de los cuales 82.5% están activos.
+
+El mercado con mayor presencia es México, con 65 partners.
+
+El ritmo de altas mensuales muestra una tendencia de alza 📈 (Δ +50%).
+
+El plan con mayor adopción es Premium.
+
+La industria más representada es Tecnología.
+
+Se detectan oportunidades de expansión en Chile, Perú y Uruguay.
+
+Este módulo resume automáticamente la situación actual del negocio sin intervención manual.
+
+--- 
+
+### Vsisualizaciones 
+
+🗺️ Visualizaciones
+
+
+🌎 Mapa Coroplético: partners por país (América completa).
+
+📈 Línea de tendencia: altas mensuales.
+
+🥧 Gráfico de torta: estado activo vs inactivo.
+
+🏭 Barras: distribución por industria y plan.
+
+📊 Dispersión: correlación entre antigüedad y engagement.
+
+
+---
 
 ###🎨 Paleta de Colores
 
 La paleta azul se diseñó para optimizar la visualización en modo oscuro y mantener coherencia con el estilo del dashboard.
 
+---
 
 ### 🧱 Dev Container (Entorno Reproducible)
 
@@ -119,9 +167,9 @@ Abre los archivos principales (README.md, streamlit_app.py)
 
 Expone el puerto 8501 con vista previa del dashboard
 
-Esto garantiza que el proyecto funcione igual en cualquier entorno local o remoto 🐳
+Esto garantiza que el proyecto funcione igual en cualquier entorno local o remoto 
 
-
+---
 
 
 ## 👨‍💻 Autor
