@@ -57,3 +57,8 @@ def show():
                   color="plan_name")
     st.plotly_chart(fig2, use_container_width=True)
 
+# Ejecutar la función automáticamente al cargar la página
+if __name__ == "__main__":
+    show()
+else:
+    show()
