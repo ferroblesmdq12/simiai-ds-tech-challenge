@@ -799,3 +799,6 @@ st.subheader("🔍 Análisis avanzado")
 
 # 🔗 Navegación interna (requiere Streamlit >=1.24)
 st.page_link("pages/modelo.py", label="🧠 Ver modelo de Machine Learning", icon="🤖")
+
+st.markdown("---")
+st.markdown("<p style='text-align:center; color:gray;'>© 2025 | Desarrollado por Fernando Raúl Robles</p>", unsafe_allow_html=True)
