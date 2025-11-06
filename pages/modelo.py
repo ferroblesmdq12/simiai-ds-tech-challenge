@@ -21,8 +21,10 @@ st.markdown("Exploración del modelo RandomForest entrenado sobre la base de dat
 # -----------------------------------------------
 # Rutas absolutas (ajustadas a tu entorno)
 # -----------------------------------------------
-model_path = r"C:\Users\Fernando\Desktop\Reto Técnico SimiAI\ml\modelo_churn.joblib"
-csv_path = r"C:\Users\Fernando\Desktop\Reto Técnico SimiAI\ml\churn_results.csv"
+
+model_path = "ml/modelo_churn.joblib"
+csv_path = "ml/churn_results.csv"
+
 
 if not os.path.exists(model_path) or not os.path.exists(csv_path):
     st.error("⚠️ No se encontraron los archivos del modelo o los resultados. Ejecutá el notebook primero.")
