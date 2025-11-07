@@ -15,6 +15,7 @@ import pandas as pd
 import psycopg2
 import plotly.express as px
 import datetime
+import traceback
 
 # Importamos los módulos personalizados
 from src.db_connection import init_connection
@@ -802,3 +803,12 @@ st.page_link("pages/modelo.py", label="🧠 Ver modelo de Machine Learning", ico
 
 st.markdown("---")
 st.markdown("<p style='text-align:center; color:gray;'>© 2025 | Desarrollado por Fernando Raúl Robles</p>", unsafe_allow_html=True)
+
+
+
+
+try:
+    show()   # o main(), dependiendo de cómo se llame tu función principal
+except Exception as e:
+    st.error(f"❌ Error en la app: {e}")
+    st.code(traceback.format_exc())
