@@ -17,7 +17,8 @@ def show():
     st.markdown("Este módulo muestra los resultados del modelo de *machine learning* entrenado en Python sobre la base de datos de SimiAI.")
 
     # Ruta del archivo generado por el modelo
-    path_csv = r"C:\Users\Fernando\Desktop\Reto Técnico SimiAI\ml\churn_results.csv"
+    path_csv = path_csv = os.path.join("ml", "churn_results.csv")
+
 
     if not os.path.exists(path_csv):
         st.error("⚠️ No se encontró el archivo 'churn_results.csv'. Ejecutá primero el notebook de entrenamiento.")
