@@ -30,7 +30,7 @@ def show():
     # KPIs principales
     col1, col2, col3 = st.columns(3)
     churn_rate = df["churn"].mean()
-    avg_prob = df["prob_churn"].mean()
+    avg_prob = df["probabilidad de churn"].mean()
     total_partners = len(df)
 
     col1.metric("Total de Partners", f"{total_partners}")
@@ -52,7 +52,7 @@ def show():
     # Churn por plan
     st.subheader("Tasa promedio de churn por plan")
     churn_plan = df.groupby("plan_name")["prob_churn"].mean().reset_index()
-    fig2 = px.bar(churn_plan, x="plan_name", y="prob_churn",
+    fig2 = px.bar(churn_plan, x="Plan", y="probabilidad de churn",
                   title="Promedio de churn por plan",
                   text_auto=".2%",
                   color="plan_name")
