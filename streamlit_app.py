@@ -1142,4 +1142,4 @@ st.markdown(
     "<p style='text-align:center; color:gray;'>© 2025 | Desarrollado por Fernando Raúl Robles</p>",
     unsafe_allow_html=True
 )
-``
+
