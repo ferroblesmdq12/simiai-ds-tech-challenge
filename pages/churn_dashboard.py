@@ -35,28 +35,28 @@ df = None
 # ------------------------------------------------------------
 # CARGA DEL MODELO
 # ------------------------------------------------------------
-# if os.path.exists(MODEL_PATH):
-#     try:
-#         model = joblib.load(MODEL_PATH)
-#         st.success("✅ Modelo cargado correctamente.")
-#     except Exception as e:
-#         st.warning(f"⚠️ No se pudo cargar el modelo. Se continuará solo con los datos.\n\n**Detalle:** {e}")
-# else:
-#     st.info("ℹ️ No se encontró el archivo `modelo_churn.joblib`.")
+if os.path.exists(MODEL_PATH):
+    try:
+        model = joblib.load(MODEL_PATH)
+        st.success("✅ Modelo cargado correctamente.")
+    except Exception as e:
+        st.warning(f"⚠️ No se pudo cargar el modelo. Se continuará solo con los datos.\n\n**Detalle:** {e}")
+else:
+    st.info("ℹ️ No se encontró el archivo `modelo_churn.joblib`.")
 
-# # ------------------------------------------------------------
-# # CARGA DEL CSV CON RESULTADOS
-# # ------------------------------------------------------------
-# if os.path.exists(CSV_PATH):
-#     try:
-#         df = pd.read_csv(CSV_PATH)
-#         st.success("✅ Datos de predicción cargados correctamente.")
-#     except Exception as e:
-#         st.error(f"❌ Error al cargar el CSV: {e}")
-#         st.stop()
-# else:
-#     st.error("⚠️ No se encontró el archivo 'churn_results.csv'.")
-#     st.stop()
+# ------------------------------------------------------------
+# CARGA DEL CSV CON RESULTADOS
+# ------------------------------------------------------------
+if os.path.exists(CSV_PATH):
+    try:
+        df = pd.read_csv(CSV_PATH)
+        st.success("✅ Datos de predicción cargados correctamente.")
+    except Exception as e:
+        st.error(f"❌ Error al cargar el CSV: {e}")
+        st.stop()
+else:
+    st.error("⚠️ No se encontró el archivo 'churn_results.csv'.")
+    st.stop()
 
 # ------------------------------------------------------------
 # RENOMBRADO PROFESIONAL DE COLUMNAS
